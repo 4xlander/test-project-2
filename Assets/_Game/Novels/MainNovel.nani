@@ -1,0 +1,75 @@
+@input PlayerName summary:"Как звать твоего героя?"
+@stop
+
+@set AylaName="Айла"
+@set DravenName="Дрейвен"
+
+; ====== Quest - Part 1 =====
+@back Location1.RadialBlur
+@char Ayla.Center
+
+Ayla: Привет, {PlayerName}.
+Ayla: Реплика 2
+Ayla: Реплика 3
+
+; TODO: questlog "Получен квест."
+
+@hide Dialogue
+@hide Ayla
+
+; ====== Quest - Part 2 =====
+@back Location2.RadialBlur
+@char Draven.Right
+
+Draven: Реплика 1
+Draven: Реплика 2
+
+; TODO: questLog "Пройди проверку Дрейвена. Мини-игра."
+
+Draven: Если пройдешь проверку - я помогу.
+
+; TODO: mini-game
+
+Draven: Хмм. Неплохо. На что-то да сгодишься.
+Draven: Ещё реплика.
+
+; TODO: questLog "Квест обновлен."
+
+@hide Dialogue
+@hide Draven
+
+; ====== Quest - Part 3 =====
+@back Location3.RadialBlur
+
+Player: Мысли в слух.
+
+; TODO: interaction with some object
+; TODO: apply object
+; TODO: questLog "Квест обновлен."
+
+Player: Ещё мысли в слух.
+
+; TODO: deactivate Location 3
+
+@hide Dialogue
+
+; ====== Quest - Part 4 =====
+@back Location2.RadialBlur
+
+Player: Никого нет.
+Player: Очередные мысли в слух.
+
+; TODO: questLog "Квест обновлен."
+@hide Dialogue
+
+; ====== Quest - Final part 5 =====
+@back Location1.RadialBlur
+
+; TODO: final dialog with both npc, choices, and npc reactions
+
+; TODO: questLog "Квест завершен."
+
+@hide Dialogue
+@title
+
+@stop

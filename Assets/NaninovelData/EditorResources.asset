@@ -145,4 +145,35 @@ MonoBehaviour:
       pathPrefix: UI
       guid: 735d6aa767879aa469134858c5b2f0a7
   - Id: Scripts
+    Resources:
+    - name: MainNovel
+      pathPrefix: Scripts
+      guid: 5b0ebdfb9e55f6e4089ad1fa8503d821
+  - Id: Characters/6b3084ed-0714-4d00-b94b-663eed48f68c
+    Resources:
+    - name: Idle
+      pathPrefix: Characters/Ayla
+      guid: 76b543c3005e44a4f83098c1b9fc7d11
+  - Id: Backgrounds/1d820559-5bc8-452e-b43f-11da5ec3053d
+    Resources:
+    - name: GlobalMap
+      pathPrefix: Backgrounds/MainBackground
+      guid: f7cc00a4bfc4abf4eaa57393773a4797
+    - name: Location1
+      pathPrefix: Backgrounds/MainBackground
+      guid: dc68765a7daf4034494c49612d6a704c
+    - name: Location2
+      pathPrefix: Backgrounds/MainBackground
+      guid: 766a594eedaec8846a30a18e532ce193
+    - name: Location3
+      pathPrefix: Backgrounds/MainBackground
+      guid: 28413ae1a97be034eb8813b75282585f
+  - Id: CharacterAvatars
+    Resources: []
+  - Id: Characters/e99e74f8-1933-4c01-91b5-d90ec36450ca
+    Resources:
+    - name: Idle
+      pathPrefix: Characters/Draven
+      guid: 801e76661343e4a46ab5b3736db665db
+  - Id: Characters/5f49777d-efea-4dae-bbf1-8d8d135da534
     Resources: []
