@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Game
@@ -16,12 +17,20 @@ namespace Game
         private MiniGameModel _gameModel;
         private CardSpriteProvider _cardSpriteProvider;
 
+        private TaskCompletionSource<bool> _gameCompletionSource;
+
         private void Start()
         {
             _cardSpriteProvider = new CardSpriteProvider(_gameConfig.CardShirts, _gameConfig.CardFaces);
             _gameModel = new MiniGameModel(_gridWidth, _gridHeight, _cardSpriteProvider);
 
             InitializeGame();
+        }
+
+        public Task<bool> PlayGameAsync()
+        {
+            _gameCompletionSource ??= new TaskCompletionSource<bool>();
+            return _gameCompletionSource.Task;
         }
 
         private void InitializeGame()
@@ -51,6 +60,7 @@ namespace Game
         private void OnGameCompleted()
         {
             Debug.Log("Game over! All pairs have been found!");
+            _gameCompletionSource?.TrySetResult(true);
         }
 
         private void OnDestroy()
@@ -58,6 +68,11 @@ namespace Game
             if (_gameModel != null)
             {
                 _gameModel.OnGameCompleted -= OnGameCompleted;
+            }
+
+            if (_gameCompletionSource != null && !_gameCompletionSource.Task.IsCompleted)
+            {
+                _gameCompletionSource.TrySetResult(false);
             }
         }
 

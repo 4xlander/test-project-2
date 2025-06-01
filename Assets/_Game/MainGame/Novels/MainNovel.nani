@@ -28,9 +28,18 @@ Draven: Реплика 2
 
 Draven: Если пройдешь проверку - я помогу.
 
-; TODO: mini-game
+@hide Dialogue
+@hide Draven
 
-Draven: Хмм. Неплохо. На что-то да сгодишься.
+@minigame
+
+@char Draven.Right
+@if MiniGameResult==true
+    Draven: Хмм. Неплохо. На что-то да сгодишься.
+@else
+    Draven: Хмм. Ну и ладно. На что-то да сгодишься.
+@endIf
+
 Draven: Ещё реплика.
 
 ; TODO: questLog "Квест обновлен."
