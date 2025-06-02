@@ -12,7 +12,8 @@ Ayla: Привет, {PlayerName}.
 Ayla: Реплика 2
 Ayla: Реплика 3
 
-; TODO: questlog "Получен квест."
+@showUI QuestlogUI
+@questlog message:"Получен квест."
 
 @hide Dialogue
 @hide Ayla
@@ -24,15 +25,17 @@ Ayla: Реплика 3
 Draven: Реплика 1
 Draven: Реплика 2
 
-; TODO: questLog "Пройди проверку Дрейвена. Мини-игра."
+@questlog message:"Пройди проверку Дрейвена."
 
 Draven: Если пройдешь проверку - я помогу.
 
+@hideUI QuestlogUI
 @hide Dialogue
 @hide Draven
 
 @minigame
 
+@showUI QuestlogUI
 @char Draven.Right
 @if MiniGameResult==true
     Draven: Хмм. Неплохо. На что-то да сгодишься.
@@ -42,7 +45,7 @@ Draven: Если пройдешь проверку - я помогу.
 
 Draven: Ещё реплика.
 
-; TODO: questLog "Квест обновлен."
+@questlog message:"Квест обновлен."
 
 @hide Dialogue
 @hide Draven
@@ -54,7 +57,7 @@ Player: Мысли в слух.
 
 ; TODO: interaction with some object
 ; TODO: apply object
-; TODO: questLog "Квест обновлен."
+@questlog message:"Квест обновлен."
 
 Player: Ещё мысли в слух.
 
@@ -68,7 +71,7 @@ Player: Ещё мысли в слух.
 Player: Никого нет.
 Player: Очередные мысли в слух.
 
-; TODO: questLog "Квест обновлен."
+@questlog message:"Квест обновлен."
 @hide Dialogue
 
 ; ====== Quest - Final part 5 =====
@@ -76,8 +79,9 @@ Player: Очередные мысли в слух.
 
 ; TODO: final dialog with both npc, choices, and npc reactions
 
-; TODO: questLog "Квест завершен."
+@questlog message:"Квест завершен."
 
+@hideUI QuestlogUI
 @hide Dialogue
 @title
 

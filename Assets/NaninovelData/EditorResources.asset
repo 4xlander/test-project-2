@@ -144,6 +144,9 @@ MonoBehaviour:
     - name: ScriptNavigatorUI
       pathPrefix: UI
       guid: 735d6aa767879aa469134858c5b2f0a7
+    - name: QuestlogUI
+      pathPrefix: UI
+      guid: beb1d856679fc144fb4f47a3940dd9c3
   - Id: Scripts
     Resources:
     - name: MainNovel
