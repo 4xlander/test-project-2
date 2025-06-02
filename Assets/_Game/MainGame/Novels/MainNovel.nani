@@ -1,3 +1,4 @@
+@back SceneBg
 @input PlayerName summary:"Как звать твоего героя?"
 @stop
 
@@ -66,6 +67,8 @@
 # Location2
 
 @back Location2.RadialBlur
+@spawn Rain
+
 @choice  button:MapButton handler:ButtonArea
 
 @if PlayerHasQuest==false
@@ -144,7 +147,7 @@
 
 @if PlayerHasItem==false
     @if ItemFound==false
-        @questlog message:"Найти загадочный предмет."
+        @questlog message:"Найти загадочную штуковину."
         Player: Тааакс... поищем.
     @endif
 
