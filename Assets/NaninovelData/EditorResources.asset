@@ -147,6 +147,9 @@ MonoBehaviour:
     - name: QuestlogUI
       pathPrefix: UI
       guid: beb1d856679fc144fb4f47a3940dd9c3
+    - name: MapUI
+      pathPrefix: UI
+      guid: 157bb2b76a31c634ebb4b5e480687e50
   - Id: Scripts
     Resources:
     - name: MainNovel
@@ -159,7 +162,7 @@ MonoBehaviour:
       guid: 76b543c3005e44a4f83098c1b9fc7d11
   - Id: Backgrounds/1d820559-5bc8-452e-b43f-11da5ec3053d
     Resources:
-    - name: GlobalMap
+    - name: Map
       pathPrefix: Backgrounds/MainBackground
       guid: f7cc00a4bfc4abf4eaa57393773a4797
     - name: Location1

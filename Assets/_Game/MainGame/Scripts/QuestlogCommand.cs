@@ -5,7 +5,6 @@ namespace Game
     [CommandAlias("questlog")]
     public class QuestlogCommand : Command
     {
-
         public StringParameter Message;
 
         public override async UniTask ExecuteAsync(AsyncToken asyncToken = default)

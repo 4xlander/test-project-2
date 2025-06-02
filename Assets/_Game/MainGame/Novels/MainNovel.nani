@@ -3,32 +3,62 @@
 
 @set AylaName="Айла"
 @set DravenName="Дрейвен"
+
+@set PlayerHasQuest=false
 @set PlayerHasItem=false
+@set Location3Unlocked=false
+@set MinigameAccepted=false
+@set MinigameCompleted=false
+@set ItemFound=false
+
+; ==============================================================================
+# Map
+
+@printer wait:false
+@skip true
+
+@hideAll
+@showUI MapUI
+
+@skip false
+@printer wait:true
+
+@stop
 
 ; ==============================================================================
 # Location1
 
 @back Location1.RadialBlur
+@choice  button:MapButton handler:ButtonArea
 
-@if PlayerHasItem==false
+@if PlayerHasQuest==false
     @char Ayla.Idle pose:Center transition:DropFade time:0.3
 
     Ayla: Ну наконец-то, {PlayerName}. Мне нужна твоя помощь.
     Player: Рассказывай.
-    Ayla: До меня дошли слухи, что где-то в пустоши находится одна очень интересная вещица. И мы с тобой могли бы неплохо на этом заработать.
+    Ayla: До меня дошли слухи, что где-то в пустоши находится одна очень интересная вещица. И мы с тобой могли бы неплохо наэтом заработать.
     Player: И где мне её искать?
     Ayla: В городе есть один человек, Дрейвен. Он обладает нужной информацией. Но он не отдаст её просто так.
 
+    @set PlayerHasQuest=true
     @showUI QuestlogUI
     @questlog message:"Найти Дрейвена."
 
     Player: Ладно, посмотрю, что можно сделать.
 
-    @hide Dialogue
-    @hide Ayla
+    @hidePrinter
+    @hideChars
+    @goto .Map
 
 @else
-    @goto .FinalDialog
+    @if PlayerHasItem==true
+        @goto .FinalDialog
+    @else
+        @showUI QuestlogUI
+        @char Ayla.Idle pose:Center transition:DropFade time:0.3
+        Ayla: Не теряй время.
+        @goto .Map
+    @endif
 @endif
 
 
@@ -36,41 +66,61 @@
 # Location2
 
 @back Location2.RadialBlur
+@choice  button:MapButton handler:ButtonArea
+
+@if PlayerHasQuest==false
+    @showUI QuestlogUI
+@endif
 
 @if PlayerHasItem==false
     @char Draven.Idle pose:Right transition:DropFade time:0.3
 
-    Draven: Привет. Очередной посланник Айлы?
-    Draven: Как звать то?
-    Player: {PlayerName}
-    Draven: Ну что ж, {PlayerName}, я могу тебе помочь, но сначала ты должен пройти мою проверку.
-    @questlog message:"Пройти проверку Дрейвена."
+    @if Location3Unlocked==false
 
-    Player: Валяй.
+        @if MinigameCompleted==false
 
-    @hideUI QuestlogUI
-    @hide Dialogue
-    @hide Draven
+            @if MinigameAccepted==false
+                Draven: Привет. Очередной посланник Айлы?
+                Draven: Как звать то?
+                Player: {PlayerName}
+                Draven: Ну что ж, {PlayerName}, я могу тебе помочь, но сначала ты должен пройти мою проверку.
 
-    ; @minigame
+                @set MinigameAccepted=true
+                @questlog message:"Пройти проверку Дрейвена."
+            @else
+                Draven: Продолжим?
+            @endif
 
-    @showUI QuestlogUI
-    @char Draven.Idle pose:Right transition:DropFade time:0.3
+            Player: Валяй.
 
-    Draven: Хмм. Неплохо. На что-то да сгодишься.
-    Player: Теперь твой черёд.
-    Draven: Да, конечно. Вот тебе координаты заброшенного хранилища. Там ты найдешь то, что ищешь.
-    Draven: Но учти, место это очень опасное.
-    Player: Ясно.
+            @hideUI QuestlogUI
+            @hidePrinter
+            @hideChars
 
-    @questlog message:"Отправиться в хранилище."
+            ; @minigame
 
-    Draven: И да... Я жду свою долю. Не забудь обо мне на обратном пути.
+            @set MinigameCompleted=true
+            @showUI QuestlogUI
+            @char Draven.Idle pose:Right transition:DropFade time:0.3
 
-    @hide Dialogue
-    @hide Draven
+            Draven: Хмм. Неплохо. На что-то да сгодишься.
+            Player: Теперь твой черёд.
+        @endif
 
-    @goto .Location3
+        Draven: Вот тебе координаты заброшенного хранилища. Там ты найдешь то, что ищешь.
+        Draven: Но учти, место это очень опасное.
+        Draven: И да... Я жду свою долю. Не забудь обо мне на обратном пути.
+
+        @set Location3Unlocked=true
+        @questlog message:"Отправиться в хранилище."
+        Player: Ясно.
+
+        @goto .Map
+
+    @else
+            Draven: Ты уже получил, что хотел.
+            @goto .Map
+    @endif
 
 @else
     @back Location2.RadialBlur
@@ -78,44 +128,54 @@
     Player: Хмм... Никого нет.
     Player: Ну тогда сразу к Айле.
 
-    @hide Dialogue
-
-    @goto .Location1
+    @hidePrinter
+    @goto .Map
 @endif
 
 
 ; ==============================================================================
 # Location3
 
-@hide Dialogue
-@hide Draven
-@hide Ayla
-
 @back Location3.RadialBlur
+@choice button:MapButton handler:ButtonArea wait:false
+@if PlayerHasQuest==false
+    @showUI QuestlogUI
+@endif
 
 @if PlayerHasItem==false
-    @questlog message:"Найти загадочный предмет."
+    @if ItemFound==false
+        @questlog message:"Найти загадочный предмет."
+        Player: Тааакс... поищем.
+    @endif
 
-    Player: Тааакс... поищем.
+    @choice  button:Item pos:0,-20 handler:ButtonArea goto:.ItemReceived
 
-    @choice handler:ButtonArea button:Item pos:0,-20 goto:.ItemReceived
+    @if ItemFound==false
+        Player: А вот, кажется, и она.
+        @set ItemFound=true
+    @else
+        Player: Нужно забирать скорее.
+    @endif
 
-    Player: А вот, кажется, и она.
     @stop
 
     # ItemReceived
     @set PlayerHasItem=true
+    @set Location3Unlocked=false
+
     @questlog message:"Предмет получен."
     @questlog message:"Вернуться к Дрейвену."
 
     Player: Виглядит и правда очень интерсно.
 
-    ; TODO: deactivate Location 3
-    
-    @hide Dialogue
+    @hidePrinter
+    @goto .Location2
+
+@else
+    Player: Я уже всё нашёл, нужно возвращаться.
+    @goto .Map
 @endif
 
-@goto .Location2
 
 ; ==============================================================================
 # FinalDialog
@@ -154,14 +214,14 @@ Draven: Я не сомневался, что ты справишься, {PlayerN
     @goto .End
 
 # End
-@questlog message:"Квест завершен."
+    @questlog message:"Квест завершен."
 
-Player: Ну я погнал! Приятно иметь с вами дело!
+    Player: Ну я погнал! Приятно иметь с вами дело!
 
-@hideUI QuestlogUI
-@hide Dialogue
-@hide Draven
-@hide Ayla
-@title
+    @hideUI QuestlogUI
+    @hide Dialogue
+    @hide Draven
+    @hide Ayla
+    @title
 
 @stop
