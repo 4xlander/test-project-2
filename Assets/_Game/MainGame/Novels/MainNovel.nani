@@ -100,7 +100,7 @@
             @hidePrinter
             @hideChars
 
-            ; @minigame
+            @minigame
 
             @set MinigameCompleted=true
             @showUI QuestlogUI
