@@ -11,6 +11,7 @@
 @set MinigameAccepted=false
 @set MinigameCompleted=false
 @set ItemFound=false
+@set IsRaining=false
 
 ; ==============================================================================
 # Map
@@ -19,6 +20,12 @@
 @skip true
 
 @hideAll
+
+@if IsRaining==true
+    @rain power:0 time:0.2
+    @set IsRaining=false
+@endif
+
 @showUI MapUI
 
 @skip false
@@ -28,6 +35,11 @@
 
 ; ==============================================================================
 # Location1
+
+@if IsRaining==true
+    @rain power:0 time:0.2
+    @set IsRaining=false
+@endif
 
 @back Location1.RadialBlur
 @choice  button:MapButton handler:ButtonArea
@@ -66,8 +78,12 @@
 ; ==============================================================================
 # Location2
 
+@if IsRaining==false
+    @rain wait:false
+    @set IsRaining=true
+@endif
+
 @back Location2.RadialBlur
-@spawn Rain
 
 @choice  button:MapButton handler:ButtonArea
 
@@ -118,10 +134,21 @@
         @questlog message:"Отправиться в хранилище."
         Player: Ясно.
 
+        @if IsRaining==true
+            @rain power:0 time:0.2
+            @set IsRaining=false
+        @endif
+
         @goto .Map
 
     @else
             Draven: Ты уже получил, что хотел.
+
+            @if IsRaining==true
+                @rain power:0 time:0.2
+                @set IsRaining=false
+            @endif
+
             @goto .Map
     @endif
 
@@ -132,12 +159,23 @@
     Player: Ну тогда сразу к Айле.
 
     @hidePrinter
+
+    @if IsRaining==true
+        @rain power:0 time:0.2
+        @set IsRaining=false
+    @endif
+
     @goto .Map
 @endif
 
 
 ; ==============================================================================
 # Location3
+
+@if IsRaining==true
+    @rain power:0 time:0.2
+    @set IsRaining=false
+@endif
 
 @back Location3.RadialBlur
 @choice button:MapButton handler:ButtonArea wait:false
@@ -219,7 +257,7 @@ Draven: Я не сомневался, что ты справишься, {PlayerN
 # End
     @questlog message:"Квест завершен."
 
-    Player: Ну я погнал! Приятно иметь с вами дело!
+    Player: Удачи! Приятно иметь с вами дело!
 
     @hideUI QuestlogUI
     @hide Dialogue
