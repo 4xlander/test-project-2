@@ -3,79 +3,116 @@
 
 @set AylaName="Айла"
 @set DravenName="Дрейвен"
+@set PlayerHasItem=false
 
-; ====== Quest - Part 1 =====
+; ==============================================================================
+# Location1
+
 @back Location1.RadialBlur
 @char Ayla.Center
 
-Ayla: Привет, {PlayerName}.
-Ayla: Реплика 2
-Ayla: Реплика 3
+@if PlayerHasItem==false
+    Ayla: Ну наконец-то, {PlayerName}. Мне нужна твоя помощь.
+    Player: Рассказывай.
+    Ayla: До меня дошли слухи, что где-то в пустоши находится одна очень интересная вещица. И мы с тобой могли бы неплохо на этом заработать.
+    Player: И где мне её искать?
+    Ayla: В городе есть один человек, Дрейвен. Он обладает нужной информацией. Но он не отдаст её просто так.
 
-@showUI QuestlogUI
-@questlog message:"Получен квест."
+    @showUI QuestlogUI
+    @questlog message:"Найти Дрейвена."
+
+    Player: Ладно, посмотрю, что можно сделать.
+
+    @hide Dialogue
+    @hide Ayla
+
+@else
+    @goto .FinalDialog
+@endif
+
+
+; ==============================================================================
+# Location2
+
+@back Location2.RadialBlur
+
+@if PlayerHasItem==false
+    @char Draven.Right
+
+    Draven: Привет. Очередной посланник Айлы?
+    Draven: Как звать то?
+    Player: {PlayerName}
+    Draven: Ну что ж, {PlayerName}, я могу тебе помочь, но сначала ты должен пройти мою проверку.
+    @questlog message:"Пройти проверку Дрейвена."
+
+    Player: Валяй.
+
+    ; @hideUI QuestlogUI
+    ; @hide Dialogue
+    ; @hide Draven
+
+    ; @minigame
+
+    ; @showUI QuestlogUI
+    ; @char Draven.Right
+
+    Draven: Хмм. Неплохо. На что-то да сгодишься.
+    Player: Теперь твой черёд.
+    Draven: Да, конечно. Вот тебе координаты заброшенного хранилища. Там ты найдешь то, что ищешь.
+    Draven: Но учти, место это очень опасное.
+    Player: Понял.
+
+    @questlog message:"Отправиться в хранилище."
+
+    Draven: И да... Я жду свою долю. Не забудь обо мне на обратном пути.
+
+@else
+    @back Location2.RadialBlur
+
+    Player: Хмм... Никого нет.
+    Player: Ну тогда сразу к Айле.
+
+    @hide Dialogue
+    @goto .Location1
+@endif
+
+
+; ==============================================================================
+# Location3
 
 @hide Dialogue
+@hide Draven
 @hide Ayla
 
-; ====== Quest - Part 2 =====
-@back Location2.RadialBlur
-@char Draven.Right
-
-Draven: Реплика 1
-Draven: Реплика 2
-
-@questlog message:"Пройди проверку Дрейвена."
-
-Draven: Если пройдешь проверку - я помогу.
-
-@hideUI QuestlogUI
-@hide Dialogue
-@hide Draven
-
-@minigame
-
-@showUI QuestlogUI
-@char Draven.Right
-@if MiniGameResult==true
-    Draven: Хмм. Неплохо. На что-то да сгодишься.
-@else
-    Draven: Хмм. Ну и ладно. На что-то да сгодишься.
-@endIf
-
-Draven: Ещё реплика.
-
-@questlog message:"Квест обновлен."
-
-@hide Dialogue
-@hide Draven
-
-; ====== Quest - Part 3 =====
 @back Location3.RadialBlur
 
-Player: Мысли в слух.
+@if PlayerHasItem==false
+    @questlog message:"Найти загадочный предмет."
 
-; TODO: interaction with some object
-; TODO: apply object
-@questlog message:"Квест обновлен."
+    Player: Тааакс... поищем.
 
-Player: Ещё мысли в слух.
+    @choice handler:ButtonArea button:Item pos:0,-20 goto:.ItemReceived
 
-; TODO: deactivate Location 3
+    Player: А вот, кажется, и оно.
+    @stop
 
-@hide Dialogue
+    # ItemReceived
+    @set PlayerHasItem=true
+    @questlog message:"Предмет получен."
+    @questlog message:"Вернуться к Дрейвену."
 
-; ====== Quest - Part 4 =====
-@back Location2.RadialBlur
+    Player: Виглядит и правда очень интерсно.
 
-Player: Никого нет.
-Player: Очередные мысли в слух.
+    ; TODO: deactivate Location 3
+    
+    @hide Dialogue
 
-@questlog message:"Квест обновлен."
-@hide Dialogue
+@endif
 
-; ====== Quest - Final part 5 =====
-@back Location1.RadialBlur
+@goto .Location2
+
+; ==============================================================================
+# FinalDialog
 
 ; TODO: final dialog with both npc, choices, and npc reactions
 
