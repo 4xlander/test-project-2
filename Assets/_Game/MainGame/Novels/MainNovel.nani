@@ -9,9 +9,10 @@
 # Location1
 
 @back Location1.RadialBlur
-@char Ayla.Center
 
 @if PlayerHasItem==false
+    @char Ayla.Idle pose:Center transition:DropFade time:0.3
+
     Ayla: Ну наконец-то, {PlayerName}. Мне нужна твоя помощь.
     Player: Рассказывай.
     Ayla: До меня дошли слухи, что где-то в пустоши находится одна очень интересная вещица. И мы с тобой могли бы неплохо на этом заработать.
@@ -37,7 +38,7 @@
 @back Location2.RadialBlur
 
 @if PlayerHasItem==false
-    @char Draven.Right
+    @char Draven.Idle pose:Right transition:DropFade time:0.3
 
     Draven: Привет. Очередной посланник Айлы?
     Draven: Как звать то?
@@ -47,24 +48,29 @@
 
     Player: Валяй.
 
-    ; @hideUI QuestlogUI
-    ; @hide Dialogue
-    ; @hide Draven
+    @hideUI QuestlogUI
+    @hide Dialogue
+    @hide Draven
 
     ; @minigame
 
-    ; @showUI QuestlogUI
-    ; @char Draven.Right
+    @showUI QuestlogUI
+    @char Draven.Idle pose:Right transition:DropFade time:0.3
 
     Draven: Хмм. Неплохо. На что-то да сгодишься.
     Player: Теперь твой черёд.
     Draven: Да, конечно. Вот тебе координаты заброшенного хранилища. Там ты найдешь то, что ищешь.
     Draven: Но учти, место это очень опасное.
-    Player: Понял.
+    Player: Ясно.
 
     @questlog message:"Отправиться в хранилище."
 
     Draven: И да... Я жду свою долю. Не забудь обо мне на обратном пути.
+
+    @hide Dialogue
+    @hide Draven
+
+    @goto .Location3
 
 @else
     @back Location2.RadialBlur
@@ -73,6 +79,7 @@
     Player: Ну тогда сразу к Айле.
 
     @hide Dialogue
+
     @goto .Location1
 @endif
 
@@ -93,7 +100,7 @@
 
     @choice handler:ButtonArea button:Item pos:0,-20 goto:.ItemReceived
 
-    Player: А вот, кажется, и оно.
+    Player: А вот, кажется, и она.
     @stop
 
     # ItemReceived
@@ -106,7 +113,6 @@
     ; TODO: deactivate Location 3
     
     @hide Dialogue
-
 @endif
 
 @goto .Location2
@@ -114,12 +120,48 @@
 ; ==============================================================================
 # FinalDialog
 
-; TODO: final dialog with both npc, choices, and npc reactions
+@char Ayla.Idle pose:Center transition:DropFade time:0.3
+Ayla: Эта вещица у тебя? Давай её сюда скорее.
 
+@char Draven.Idle pose:Right transition:DropFade time:0.3
+Draven: Я не сомневался, что ты справишься, {PlayerName}. Ты со мной?
+
+@choice "Отдать предмет Айле" goto:.AylaChoice
+@choice "Отдать предмет Дрейвену" goto:.DravenChoice
+@choice "Оставить предмет себе" goto:.KeepItem
+@stop
+
+# AylaChoice
+    Player: Айла, держи.
+    Ayla: Мы разбогатеем, {PlayerName}. Я уже чувствую это.
+    @shake Draven
+    Draven: Зря ты так!
+    @goto .End
+
+# DravenChoice
+    Player: Дрейвен, держи.
+    Draven: Отлично, {PlayerName}. Ты не пожалеешь о своём выборе.
+    @shake Ayla
+    Айла: Ты что, с ума сошел? Это же моя находка!
+    @goto .End
+
+# KeepItem
+    Player: Пожалуй, я оставлю себе.
+    @shake Ayla
+    Ayla: Что? У нас был уговор!
+    @shake Draven
+    Draven: Зря ты! Я такое на прощаю!
+    @goto .End
+
+# End
 @questlog message:"Квест завершен."
+
+Player: Ну я погнал! Приятно иметь с вами дело!
 
 @hideUI QuestlogUI
 @hide Dialogue
+@hide Draven
+@hide Ayla
 @title
 
 @stop
