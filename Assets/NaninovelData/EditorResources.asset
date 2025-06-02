@@ -42,7 +42,7 @@ MonoBehaviour:
     Resources:
     - name: ButtonList
       pathPrefix: ChoiceHandlers
-      guid: 1f6aa29000e839c409e6a9c0704adc96
+      guid: 52ec91dca207fff41a67688cf82c12a7
   - Id: ChoiceHandlers/36527b2a-04e3-4362-a706-df8f7f648002
     Resources:
     - name: ButtonArea
