@@ -1,9 +1,9 @@
 @back SceneBg
-@input PlayerName summary:"Как звать твоего героя?"
+@input PlayerName summary:"What's your hero's name?"
 @stop
 
-@set AylaName="Айла"
-@set DravenName="Дрейвен"
+@set AylaName="Ayla"
+@set DravenName="Draven"
 
 @set PlayerHasQuest=false
 @set PlayerHasItem=false
@@ -47,17 +47,17 @@
 @if PlayerHasQuest==false
     @char Ayla.Idle pose:Center transition:DropFade time:0.3
 
-    Ayla: Ну наконец-то, {PlayerName}. Мне нужна твоя помощь.
-    Player: Рассказывай.
-    Ayla: До меня дошли слухи, что где-то в пустоши находится одна очень интересная вещица. И мы с тобой могли бы неплохо наэтом заработать.
-    Player: И где мне её искать?
-    Ayla: В городе есть один человек, Дрейвен. Он обладает нужной информацией. Но он не отдаст её просто так.
+    Ayla: Finally, {PlayerName}. I need your help.
+    Player: I'm listening.
+    Ayla: I've heard rumors that there's something very interesting out in the wasteland. You and I could make a good profit from it.
+    Player: And where should I look for it?
+    Ayla: There's a man in town named Draven. He has the information we need. But he won't give it away for free.
 
     @set PlayerHasQuest=true
     @showUI QuestlogUI
-    @questlog message:"Найти Дрейвена."
+    @questlog message:"Find Draven."
 
-    Player: Ладно, посмотрю, что можно сделать.
+    Player: Alright, I'll see what I can do.
 
     @hidePrinter
     @hideChars
@@ -69,7 +69,7 @@
     @else
         @showUI QuestlogUI
         @char Ayla.Idle pose:Center transition:DropFade time:0.3
-        Ayla: Не теряй время.
+        Ayla: Don’t waste time.
         @goto .Map
     @endif
 @endif
@@ -99,18 +99,18 @@
         @if MinigameCompleted==false
 
             @if MinigameAccepted==false
-                Draven: Привет. Очередной посланник Айлы?
-                Draven: Как звать то?
-                Player: {PlayerName}
-                Draven: Ну что ж, {PlayerName}, я могу тебе помочь, но сначала ты должен пройти мою проверку.
+                Draven: Hey! Another one of Ayla's errand boys?
+                Draven: What's your name?
+                Player: You can call me {PlayerName}.
+                Draven:  Well then, {PlayerName}, I can help you — but first, you'll have to pass my test.
 
                 @set MinigameAccepted=true
-                @questlog message:"Пройти проверку Дрейвена."
+                @questlog message:"Pass Draven's test."
             @else
-                Draven: Продолжим?
+                Draven: Shall we continue?
             @endif
 
-            Player: Валяй.
+            Player: Go ahead.
 
             @hideUI QuestlogUI
             @hidePrinter
@@ -122,17 +122,17 @@
             @showUI QuestlogUI
             @char Draven.Idle pose:Right transition:DropFade time:0.3
 
-            Draven: Хмм. Неплохо. На что-то да сгодишься.
-            Player: Теперь твой черёд.
+            Draven: Hmm. Not bad. You might be useful after all.
+            Player:  Now it's your turn.
         @endif
 
-        Draven: Вот тебе координаты заброшенного хранилища. Там ты найдешь то, что ищешь.
-        Draven: Но учти, место это очень опасное.
-        Draven: И да... Я жду свою долю. Не забудь обо мне на обратном пути.
+        Draven: Here are the coordinates to the abandoned vault. You'll find what you're looking for there.
+        Draven: But keep in mind — the place is dangerous.
+        Draven: And yeah... I expect my cut. Don't forget me on your way back.
 
         @set Location3Unlocked=true
-        @questlog message:"Отправиться в хранилище."
-        Player: Ясно.
+        @questlog message:"Head to the vault."
+        Player: Got it.
 
         @if IsRaining==true
             @rain power:0 time:0.2
@@ -142,7 +142,7 @@
         @goto .Map
 
     @else
-            Draven: Ты уже получил, что хотел.
+            Draven: You already got what you came for.
 
             @if IsRaining==true
                 @rain power:0 time:0.2
@@ -153,10 +153,8 @@
     @endif
 
 @else
-    @back Location2.RadialBlur
-
-    Player: Хмм... Никого нет.
-    Player: Ну тогда сразу к Айле.
+    Player: Hmm... No one's here.
+    Player: Then straight back to Ayla.
 
     @hidePrinter
 
@@ -185,17 +183,17 @@
 
 @if PlayerHasItem==false
     @if ItemFound==false
-        @questlog message:"Найти загадочную штуковину."
-        Player: Тааакс... поищем.
+        @questlog message:"Find the mysterious thing."
+        Player: Alright... let’s look around.
     @endif
 
     @choice  button:Item pos:0,-20 handler:ButtonArea goto:.ItemReceived
 
     @if ItemFound==false
-        Player: А вот, кажется, и она.
+        Player: There it is, I think.
         @set ItemFound=true
     @else
-        Player: Нужно забирать скорее.
+        Player: Better grab it quickly.
     @endif
 
     @stop
@@ -204,16 +202,16 @@
     @set PlayerHasItem=true
     @set Location3Unlocked=false
 
-    @questlog message:"Предмет получен."
-    @questlog message:"Вернуться к Дрейвену."
+    @questlog message:"Item acquired."
+    @questlog message:"Return to Draven."
 
-    Player: Виглядит и правда очень интерсно.
+    Player: It really does look interesting.
 
     @hidePrinter
     @goto .Location2
 
 @else
-    Player: Я уже всё нашёл, нужно возвращаться.
+    Player: I’ve already found everything — time to head back.
     @goto .Map
 @endif
 
@@ -222,42 +220,42 @@
 # FinalDialog
 
 @char Ayla.Idle pose:Center transition:DropFade time:0.3
-Ayla: Эта вещица у тебя? Давай её сюда скорее.
+Ayla: You've got it? Give it to me.
 
 @char Draven.Idle pose:Right transition:DropFade time:0.3
-Draven: Я не сомневался, что ты справишься, {PlayerName}. Ты со мной?
+Draven: I knew you'd pull it off, {PlayerName}. Are you with me?
 
-@choice "Отдать предмет Айле" goto:.AylaChoice
-@choice "Отдать предмет Дрейвену" goto:.DravenChoice
-@choice "Оставить предмет себе" goto:.KeepItem
+@choice "Give the item to Ayla" goto:.AylaChoice
+@choice "Give the item to Draven" goto:.DravenChoice
+@choice "Keep the item for yourself" goto:.KeepItem
 @stop
 
 # AylaChoice
-    Player: Айла, держи.
-    Ayla: Мы разбогатеем, {PlayerName}. Я уже чувствую это.
+    Player: Here you go, Ayla.
+    Ayla: We're going to be rich, {PlayerName}. I can feel it already!
     @shake Draven
-    Draven: Зря ты так!
+    Draven: You’ll regret that!
     @goto .End
 
 # DravenChoice
-    Player: Дрейвен, держи.
-    Draven: Отлично, {PlayerName}. Ты не пожалеешь о своём выборе.
+    Player: Here you go, Draven.
+    Draven: Excellent, {PlayerName}. You won’t regret your decision.
     @shake Ayla
-    Айла: Ты что, с ума сошел? Это же моя находка!
+    Айла: Are you crazy? That was *my* discovery!
     @goto .End
 
 # KeepItem
-    Player: Пожалуй, я оставлю себе.
+    Player: I think I’ll keep it for myself.
     @shake Ayla
-    Ayla: Что? У нас был уговор!
+    Ayla: What? We had a deal!
     @shake Draven
-    Draven: Зря ты! Я такое на прощаю!
+    Draven: Big mistake! I don’t forgive things like that!
     @goto .End
 
 # End
-    @questlog message:"Квест завершен."
+    @questlog message:"Quest complete."
 
-    Player: Удачи! Приятно иметь с вами дело!
+    Player: Good luck! It was a pleasure doing business with you!
 
     @hideUI QuestlogUI
     @hide Dialogue
